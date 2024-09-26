@@ -250,21 +250,28 @@ def acs():
         else:
             full_name = u'{} {}'.format(email.split('@')[0], email.split('@')[1])
 
+    print("[RUNNING (process_user)]")
     g.user = process_user(email, saml_id, full_name, auth_response.ava)
 
     # Check if the authenticated user email is in given list of emails
     # and make that user sysadmin and opposite
+    print("[RUNNING (update_user_sysadmin_status)]")
     h.update_user_sysadmin_status(g.user, email)
 
+    print("[RUNNING (mode.User.by_name)]")
     g.userobj = model.User.by_name(g.user)
 
+    print("[RUNNING (request.form.get('RelayState'))]")
     relay_state = request.form.get('RelayState')
+    print("[RUNNING (toolkit.url_for...)]")
     redirect_target = toolkit.url_for(
         relay_state, _external=True) if relay_state else config.get(
             'ckanext.saml2auth.default_fallback_endpoint', 'user.me')
 
+    print("[RUNNING (toolkit.redirect_to(redirect_target))]")
     resp = toolkit.redirect_to(redirect_target)
 
+    print("[RUNNING _log_user_into_ckan(resp)]")
     _log_user_into_ckan(resp)
 
     set_saml_session_info(session, session_info)
