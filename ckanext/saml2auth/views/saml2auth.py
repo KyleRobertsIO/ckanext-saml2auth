@@ -236,6 +236,8 @@ def acs():
     # SAML username - unique
     saml_id = user_info.text
     # Required user attributes for user creation
+    print("[PRINTING AUTH RESPONSE - AVA]")
+    print(auth_response.ava)
     email = auth_response.ava[saml_user_email][0]
 
     if saml_user_firstname and saml_user_lastname:
