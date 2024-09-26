@@ -280,6 +280,7 @@ def acs():
     for plugin in plugins.PluginImplementations(ISaml2Auth):
         resp = plugin.after_saml2_login(resp, auth_response.ava)
 
+    print("[SENDING RESPONSE OBJECT]")
     return resp
 
 
