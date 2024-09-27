@@ -231,8 +231,10 @@ def acs():
 
     auth_response.get_identity()
     user_info = auth_response.get_subject()
+    print(user_info)
     session_info = auth_response.session_info()
-
+    print(session_info)
+    
     # SAML username - unique
     saml_id = user_info.text
     # Required user attributes for user creation
@@ -252,6 +254,7 @@ def acs():
 
     print("[RUNNING (process_user)]")
     g.user = process_user(email, saml_id, full_name, auth_response.ava)
+    print(g.user)
 
     # Check if the authenticated user email is in given list of emails
     # and make that user sysadmin and opposite
@@ -267,7 +270,8 @@ def acs():
     redirect_target = toolkit.url_for(
         relay_state, _external=True) if relay_state else config.get(
             'ckanext.saml2auth.default_fallback_endpoint', 'user.me')
-
+    print(redirect_target)
+    
     print("[RUNNING (toolkit.redirect_to(redirect_target))]")
     resp = toolkit.redirect_to(redirect_target)
 
@@ -281,7 +285,7 @@ def acs():
         resp = plugin.after_saml2_login(resp, auth_response.ava)
 
     print("[SENDING RESPONSE OBJECT]")
-    print(resp)
+    print(resp.__dict__())
     return resp
 
 
