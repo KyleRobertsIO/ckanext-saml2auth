@@ -281,6 +281,7 @@ def acs():
         resp = plugin.after_saml2_login(resp, auth_response.ava)
 
     print("[SENDING RESPONSE OBJECT]")
+    print(resp)
     return resp
 
 
